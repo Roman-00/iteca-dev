@@ -1,12 +1,9 @@
 import React from 'react';
 
-import { HomeLsit } from '../components/HomeLsit';
 
 const Home = () => {
 
-    return <>
-        <HomeLsit />
-    </>
+    return <h1>Hello I,m Home Page</h1>
 
 };
 
