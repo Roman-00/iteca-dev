@@ -22,20 +22,42 @@ const Calculator = ({object}) => {
 
     const handleChange = (e) => {
         setValue(e.target.value);
+        /*e.nativeEvent.data !== " "*/
+        /*e.target.value.search(//) !==-1*/
         if (e.nativeEvent.data !== " ") {
             setValueLenght(e.target.value.length);
         }
     };
 
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(false); // Угол
 
+    const [checkedp, setCheckedP] = useState('false'); // Полуостров
+
+    const [checkedo, setCheckedO] = useState('false'); // Остров
+    
     useEffect(() => {
-      if (b_ugol && b_poluostrov) {
+      if (b_ugol) {
         setChecked(true);
       } else {
         setChecked(false);
       }
-    }, [b_ugol, b_poluostrov]);
+    }, [b_ugol]);
+
+    useEffect(() => {
+        if (b_poluostrov) {
+            setCheckedP('true')
+        } else {
+            setCheckedP('false')
+        }
+    }, [b_poluostrov])
+
+    useEffect(() => {
+        if (b_ostrov) {
+            setCheckedO('true')
+        } else {
+            setCheckedO('false')
+        }
+    }, [b_ostrov])
 
 
     return (
@@ -58,11 +80,11 @@ const Calculator = ({object}) => {
                         <label>Угол</label>
                     </div>
                     <div className="calculator__paramentrs calculator__paramentrs--penensula">
-                        <input type="checkbox" className="custom-checkbox" checked={checked} onChange={() => {}}/>
+                        <input type="checkbox" className="custom-checkbox" checkedp={checkedp} onChange={() => {}}/>
                         <label>Полуостров</label>
                     </div>
                     <div className="calculator__paramentrs calculator__paramentrs--island">
-                        <input type="checkbox" className="custom-checkbox"/>
+                        <input type="checkbox" className="custom-checkbox" checkedo={checkedo} onChange={() => {}}/>
                         <label>Остров</label>
                     </div>
                     <div className="calculator__paramentrs calculator__paramentrs--letters">

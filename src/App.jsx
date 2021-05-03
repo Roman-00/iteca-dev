@@ -1,17 +1,16 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { HashRouter as Router, Switch, Route  } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route  } from 'react-router-dom';
 
 import { Home } from './Layout/Home';
 import { Services } from './Layout/Services';
-import { CategoryList } from './Layout/CategoryList';
+import { Category } from './Layout/Category';
 import { Aside } from './Layout/Aside';
 
 import { Calculator } from './components/Calculator';
 import { Preloader } from './components/Preloader';
 
 import { getDataInfo } from './services/api';
-import { Category } from './Layout/CategoryList';
 
 const App = () => {
 
@@ -58,7 +57,6 @@ const App = () => {
                                         <main className="content">
                                             <Switch>
                                                 <Route exact path='/' component={Home}/>
-                                                <Route path="/category" component={CategoryList}/>
                                                 <Route path='/services'>
                                                     {!nomenclatura.length ? (
                                                         <Preloader />
@@ -69,6 +67,7 @@ const App = () => {
                                                         </div>
                                                     )}
                                                 </Route>
+                                                <Route path="/category" component={Category}/>
                                             </Switch>
                                         </main>
                                         <aside className="sidebar sidebar1">
