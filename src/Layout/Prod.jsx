@@ -1,22 +1,23 @@
 import React from 'react';
 
 import { Preloader } from '../components/Preloader';
-import { CategoryList } from '../components/CategoryList';
+import { ProdList } from '../components/ProdList';
 
-import { getCategoryList } from '../services/api';
+import { getProdList } from '../services/api';
 
-const Category = () => {
 
-    const [category, setCategory] = React.useState({});
+const Prod = () => {
+
+    const [prod, setProd] = React.useState({})
 
     React.useEffect(() => {
-        getCategoryList()
+        getProdList()
             .catch((error) => {
                 console.log(error)
             })
             .then((res) => {
                 if(res.response?.status === 200) {
-                    setCategory(res.category.CategoryList)
+                    setProd(res.prod.ProdList)
                 } else {
                     console.log('Ошибка')
                 }
@@ -25,10 +26,10 @@ const Category = () => {
 
     return (
         <div className="wrapper__content">
-            {!category.length ? <Preloader /> : <CategoryList category={category}/>}
+            {!prod.length ? <Preloader /> : <ProdList prod={prod}/>}
         </div>
     )
 
 }
 
-export { Category };
+export { Prod };

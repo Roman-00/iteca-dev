@@ -11,7 +11,7 @@ export const getDataInfo = async () => {
     }),
   });
 
-  const object = response.json();
+  const object = await response.json();
 
   return {
     object,
@@ -33,7 +33,7 @@ export const getCategoryList = async () => {
     }),
   });
 
-  const category = response.json();
+  const category = await response.json();
 
   return {
     category,
@@ -55,7 +55,7 @@ export const getProdList = async () => {
     }),
   });
 
-  const prod = response.json();
+  const prod = await response.json();
 
   return {
     prod,
