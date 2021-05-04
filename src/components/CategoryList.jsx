@@ -18,7 +18,7 @@ const CategoryList = ({category}) => {
                             <img src={el.strCategoryThumb} alt={el.strCategory} className="card__image"/>
                         </figure>
 
-                        <Link to={`/category/${el.idCategory}`} className="card__to">
+                        <Link to={`/category/${el.strCategory}/${el.idCategory}`} className="card__to">
                             {el.strCategory}
                         </Link>
                     </div>

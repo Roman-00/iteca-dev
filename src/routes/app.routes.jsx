@@ -49,7 +49,7 @@ const AppRoutes = () => {
                         )}
                     </Route>
                     <Route exact path="/category" component={Category} />
-                    <Route exact path="/category/:id" component={Prod}/>
+                    <Route exact path="/category/:title/:id" component={Prod}/>
                 </Switch>
             </main>
             <aside className="sidebar sidebar1">
