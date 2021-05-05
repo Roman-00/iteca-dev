@@ -26,6 +26,9 @@ const ProdList = ({prod}) => {
                                     <img src={dafaultImage} alt="card-default" className="card__image"/>
                                 </figure>
                             }
+                            <h4 className="prod__card--title">
+                                {el.strProduct}
+                            </h4>
                             <div className="card__content">
                                 <div className="card__content--price">
                                     <span className="card__content--price">

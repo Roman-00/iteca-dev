@@ -13,15 +13,16 @@ const CategoryList = ({category}) => {
             </p>
             <div className="category__card">
                 {category.map((el) => (
-                    <div className="card" key={el.idCategory}>
-                        <figure className="card__figure">
-                            <img src={el.strCategoryThumb} alt={el.strCategory} className="card__image"/>
-                        </figure>
-
-                        <Link to={`/category/${el.strCategory}/${el.idCategory}`} className="card__to">
-                            {el.strCategory}
-                        </Link>
-                    </div>
+                    <Link to={`/category/${el.strCategory}/${el.idCategory}`} className="card__to" key={el.idCategory}>
+                        <div className="card">
+                            <figure className="card__figure">
+                                <img src={el.strCategoryThumb} alt={el.strCategory} className="card__image"/>
+                            </figure>
+                            <span className="card__to">
+                                {el.strCategory}
+                            </span>
+                        </div>
+                    </Link>
                 ))}
             </div>
         </div>
