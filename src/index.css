@@ -819,7 +819,7 @@ img {
 .category__card,
 .prod__card {
     display: grid;
-    grid-gap: 15px;
+    grid-gap: 40px;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
@@ -829,18 +829,15 @@ img {
     align-items: center;
     justify-content: space-evenly;
     padding: 2rem;
-    border-radius:10px;
-    background: #faf9f9;
-    -webkit-border-radius:10px;
-    -moz-border-radius:10px;
-    -ms-border-radius:10px;
-    -o-border-radius:10px;
+    background: #efefef;
+    background: linear-gradient(135deg,rgba(f, f, f, 0.1),rgba(255, 255, 255, 0.1));
+    box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.1),
+                -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
 }
 
 .card__figure {
     position: relative;
     padding: 10px;
-    border-radius: 10px;
     background-color: #fff;
 }
 
@@ -858,8 +855,7 @@ img {
 }
 
 .card__to {
-    display: block;
-    margin-top: 1.5rem;
+    display: flex;
     font-size: 16px;
     text-align: center;
     text-decoration: none;
@@ -869,9 +865,14 @@ img {
     -moz-transition: .5s ease;
     -ms-transition: .5s ease;
     -o-transition: .5s ease;
+    
 }
 
-.card__to:hover {
+.card__to span {
+    margin-top: 1.5rem;
+}
+
+.card__to:hover span {
     color: #4e73df;
     text-decoration: underline;
 }
