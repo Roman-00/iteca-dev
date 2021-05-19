@@ -21,12 +21,17 @@ const AppRoutes = () => {
     const [object, setObject] = React.useState({});
     const [order, setOrder] = React.useState([]);
 
+    const [send, sendCard] = React.useState(false);
+
+    const [updateCart, setUpdateCart] = React.useState(false);
+
     const addToBasket = (item, type) => {
+
+        setUpdateCart(true);
+
         const itemIndex = order.findIndex(
             (orderItem) => orderItem.idProduct === item.idProduct,
         )
-
-        console.log('item', item);
 
         if(itemIndex < 0) {
             const newItem = {
@@ -35,28 +40,65 @@ const AppRoutes = () => {
             }
             setOrder([...order, newItem])
         } else {
-            order.forEach((orderItem, index) => {
-                const newOrder = order.filter((el) => el.idProduct !== item.idProduct)
-                if (index === itemIndex) {
-                    if(type === 'add') {
-                        const targetOrder = {
-                            ...orderItem,
-                            quantity: orderItem.quantity + 1,
-                        }
-                        setOrder([...newOrder, targetOrder])
-                    } else if (type === 'remove' && orderItem.quantity === 1) {
-                        setOrder(order.filter((el) => el.idProduct !== item.idProduct))
-                    } else if (type === 'remove' && orderItem.quantity > 1) {
-                        const targetOrder = {
-                            ...orderItem,
-                            quantity: orderItem.quantity - 1,
-                        }
-                        setOrder([...newOrder, targetOrder])
-                    }
+            if(type === 'add') {
+                order[itemIndex].quantity = order[itemIndex].quantity + 1;
+                setOrder(order)
+            } else if (type === 'remove') {
+                if (order[itemIndex].quantity === 1) {
+                    setOrder(order.filter((el) => el.idProduct !== item.idProduct))
+                } else if (order[itemIndex].quantity > 1) {
+                    order[itemIndex].quantity = order[itemIndex].quantity - 1;
+                    setOrder(order)
+                }
+            } else if (type === 'removeAll') {
+                setOrder(order.filter((el) => el.idProduct !== item.idProduct))
+            }
+        }
+        
+        // 0 - попадаем в асинхронную функцию - почитать EventLoop
+        const updater = setTimeout(updateCartInfo, 0);
+
+        function updateCartInfo () {
+            setUpdateCart(false);
+            clearTimeout(updater);
+        }
+
+        console.log('order', order);
+        console.log('order', JSON.stringify(order));
+    }
+
+    React.useEffect(() => {  
+        if(send) {
+            const sendBacket = async () => {
+                const request = await fetch('https://itecaa-react-test-default-rtdb.firebaseio.com/ManagerData.json', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        order: order,
+                        lang: ''
+                    })
+                });
+
+                const data = await request.json();
+
+                return {
+                    request, 
+                    data
+                }
+            }
+
+            sendBacket()
+            .then((res) => {
+                if(res.request.status === 200) {
+                    console.log('Ок')
                 }
             })
+            .catch((error) => {
+                console.error(error);
+            }) 
         }
-    }
+        sendCard(false);
+        setOrder([]);
+    }, [send])
 
     React.useEffect(() => {
         getDataInfo()
@@ -95,7 +137,7 @@ const AppRoutes = () => {
                                 <Prod addToBasket={addToBasket} order={order} />
                             </Route>
                             <Route exact path="/cart">
-                                <Cart order={order} addToBasket={addToBasket}/>
+                                <Cart updateCart={updateCart} order={order} addToBasket={addToBasket} sendCard={sendCard}/>
                             </Route>
                     </main>
                     <aside>

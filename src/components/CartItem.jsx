@@ -13,8 +13,6 @@ export const CartItem = ({idProduct, strProduct, Price, quantity, addToBasket}) 
                                 addToBasket(
                                     {
                                         idProduct,
-                                        strProduct,
-                                        Price,
                                     },
                                     'add',
                                 )
@@ -28,8 +26,6 @@ export const CartItem = ({idProduct, strProduct, Price, quantity, addToBasket}) 
                                 addToBasket(
                                     {
                                         idProduct,
-                                        strProduct,
-                                        Price,
                                     },
                                     'remove',
                                 )
@@ -45,7 +41,19 @@ export const CartItem = ({idProduct, strProduct, Price, quantity, addToBasket}) 
                 <div className="cart__content--price">
                     <span className="cart-list-item__price">{Price}</span>
                 </div>
-                <div className="remove__item">Удалить</div> 
+                <div 
+                    className="remove__item"
+                    onClick={() =>
+                        addToBasket(
+                            {
+                                idProduct,
+                            },
+                            'removeAll',
+                        )
+                    }
+                >
+                    Удалить
+                </div> 
             </div>
         </li>
     )

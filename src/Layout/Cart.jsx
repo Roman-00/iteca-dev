@@ -4,7 +4,7 @@ import { CartItem } from '../components/CartItem';
 
 import download from '../images/download.svg';
 
-export const Cart = ({order, addToBasket}) => {
+export const Cart = ({order, addToBasket, sendCard}) => {
 
     const tottalPrice = order.reduce((sum, el) => {
         return sum + el.Price * el.quantity
@@ -19,7 +19,7 @@ export const Cart = ({order, addToBasket}) => {
 
                 <ol className="cart__content--list">
                     {order.length ? (
-                        order.map((item) => <CartItem key={item.idProduct} {...item} addToBasket={addToBasket}/>)
+                        order.map((item) => <CartItem key={item.idProduct} {...item} order={order} addToBasket={addToBasket}/>)
                         ) : (
                         <span>Корзина Пуста</span>
                     )}
@@ -31,7 +31,10 @@ export const Cart = ({order, addToBasket}) => {
                 </div>
 
                 <div className="cart__button--wrapper">
-                    <button className="btn btn__cart btn--primary btn__send--order col-70">
+                    <button 
+                        className="btn btn__cart btn--primary btn__send--order col-70"
+                        onClick={() => sendCard(true)}
+                    >
                         <span>Отправить заказ на проверку для получения счета на оплату и 
                         финальной схемы стенда</span>
                     </button>
