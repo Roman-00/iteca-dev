@@ -95,7 +95,7 @@ const AppRoutes = () => {
                                 <Prod addToBasket={addToBasket} order={order} />
                             </Route>
                             <Route exact path="/cart">
-                                <Cart order={order}/>
+                                <Cart order={order} addToBasket={addToBasket}/>
                             </Route>
                     </main>
                     <aside>
