@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import dafaultImage from '../images/image-default.png';
 
-const ProdList = ({prod}) => {
+const ProdList = ({prod, addToBasket, order}) => {
 
     const {id, title} = useParams();
 
@@ -15,40 +15,77 @@ const ProdList = ({prod}) => {
             <div className="prod__card">
                 {prod
                     .filter((el) => el.idCategory == id)
-                    .map((el) => (
-                        <div className="card" key={el.idProduct}>
-                            {el.srtProductThumb ?
-                                <figure className="card__figure card__figure--prod">
-                                    <img src={el.srtProductThumb} alt={el.strProduct} className="card__image"/>
-                                </figure>
-                                :
-                                <figure className="card__figure">
-                                    <img src={dafaultImage} alt="card-default" className="card__image"/>
-                                </figure>
-                            }
-                            <h4 className="prod__card--title">
-                                {el.strProduct}
-                            </h4>
-                            <div className="card__content">
-                                <div className="card__content--price">
-                                    <span className="card__content--price">
-                                        {el.Price}
-                                    </span>
-                                    <span className="card__content--curency">
-                                        {el.Curency}
-                                    </span>
-                                </div>
-                                <div className="card__content--quantity">
-                                    <button className="button-cart">+</button>
-                                    <span className="cart-list-item__count">2</span>
-                                    <button className="button-cart">-</button>
+                    .map((el) => {
+                        const {idProduct, strProduct, Price, Curency, srtProductThumb} = el
+                        
+                        const quantity = order.find((el) => el.idProduct === idProduct)
+                            ?.quantity
+                        return (
+                            <div className="card" key={idProduct}>
+                                {srtProductThumb ?
+                                    <figure className="card__figure card__figure--prod">
+                                        <img src={srtProductThumb} alt={strProduct} className="card__image"/>
+                                    </figure>
+                                    :
+                                    <figure className="card__figure">
+                                        <img src={dafaultImage} alt="card-default" className="card__image"/>
+                                    </figure>
+                                }
+                                <div className="card__content">
+                                    <div className="card__content--wrap">
+                                        <h4 className="prod__card--title">
+                                            {strProduct}
+                                        </h4>
+                                        <div className="card__content--price">
+                                            <span className="card__content--price">
+                                                {Price}
+                                            </span>
+                                            <span className="card__content--curency">
+                                                {Curency}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="card__content--quantity">
+                                        <div className="content__quantity">
+                                            <span className="cart-list-item__count">{quantity ? quantity : 0}</span>
+                                        </div>
+                                        <div className="content__btn_add--remove">
+                                            <button 
+                                                className="button-cart"
+                                                onClick={() =>
+                                                    addToBasket(
+                                                        {
+                                                            idProduct,
+                                                            strProduct,
+                                                            Price,
+                                                        },
+                                                        'add',
+                                                    )
+                                                }
+                                            >
+                                                +
+                                            </button>
+                                            <button 
+                                                className="button-cart"
+                                                onClick={() =>
+                                                    addToBasket(
+                                                        {
+                                                            idProduct,
+                                                            strProduct,
+                                                            Price,
+                                                        },
+                                                        'remove',
+                                                    )
+                                                }
+                                            >
+                                                -
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="card__content--buy">
-                                <button className="card__button-buy">Купить</button>
-                            </div>
-                        </div>
-                    ))
+                        )
+                    })
                 }
             </div>
         </div>

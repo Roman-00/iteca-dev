@@ -6,7 +6,7 @@ import { ProdList } from '../components/ProdList';
 import { getProdList } from '../services/api';
 
 
-const Prod = () => {
+const Prod = ({order, addToBasket}) => {
 
     const [prod, setProd] = React.useState({})
 
@@ -26,7 +26,7 @@ const Prod = () => {
 
     return (
         <div className="wrapper__content">
-            {!prod.length ? <Preloader /> : <ProdList prod={prod}/>}
+            {!prod.length ? <Preloader /> : <ProdList prod={prod} addToBasket={addToBasket} order={order}/>}
         </div>
     )
 
