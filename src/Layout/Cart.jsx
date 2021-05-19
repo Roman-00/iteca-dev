@@ -10,7 +10,7 @@ export const Cart = ({order}) => {
 
     return (
         <div className="wrapper__content">
-            <h2 className="content__title">
+            <h2 className="content__title cart__content--title">
                 Итоговая форма
             </h2>
             <div className="cart__content">
@@ -22,7 +22,18 @@ export const Cart = ({order}) => {
                     )}
                 </ol>
                 <div className="cart__total--price-result">
-                    Итого: {Math.floor(tottalPrice * 100) / 100}
+                    <span className="price__result--text">Итого по всем формам:</span> 
+                    <span className="price__result--number">{Math.floor(tottalPrice * 100) / 100}</span>
+                </div>
+                <div className="cart__button--wrapper">
+                    <button className="btn btn__cart btn--primary btn__send--order">
+                        Отправить заказ на проверку для получения счета на оплату и 
+                        финальной схемы стенда
+                    </button>
+                    <button className="btn btn__cart btn--primary btn__procced">
+                        <span>Продолжить 
+                        покупки</span> 
+                    </button>
                 </div>
             </div>
         </div>
