@@ -1255,7 +1255,8 @@ img {
         flex-direction: column;
     }
 
-    .sidebar1 {
+    .sidebar1,
+    .sidebar2 {
         display: none;
     }
 }
