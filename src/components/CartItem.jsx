@@ -1,6 +1,7 @@
 import React from 'react';
 
 export const CartItem = ({idProduct, strProduct, Price, quantity, addToBasket}) => {
+
     return (
         <li className="cart__list--item">
             <div className="list__item--block">
@@ -41,7 +42,7 @@ export const CartItem = ({idProduct, strProduct, Price, quantity, addToBasket}) 
                 <div className="cart__content--price">
                     <span className="cart-list-item__price">{Price}</span>
                 </div>
-                <div 
+                {/*<div 
                     className="remove__item"
                     onClick={() =>
                         addToBasket(
@@ -53,7 +54,7 @@ export const CartItem = ({idProduct, strProduct, Price, quantity, addToBasket}) 
                     }
                 >
                     Удалить
-                </div> 
+                </div>*/} 
             </div>
         </li>
     )

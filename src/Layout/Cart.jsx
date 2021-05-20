@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { CartItem } from '../components/CartItem';
 
@@ -9,6 +10,8 @@ export const Cart = ({order, addToBasket, sendCard}) => {
     const tottalPrice = order.reduce((sum, el) => {
         return sum + el.Price * el.quantity
     }, 0)
+
+    const { goBack } = useHistory();
 
     return (
         <div className="wrapper__content">
@@ -38,7 +41,7 @@ export const Cart = ({order, addToBasket, sendCard}) => {
                         <span>Отправить заказ на проверку для получения счета на оплату и 
                         финальной схемы стенда</span>
                     </button>
-                    <button className="btn btn__cart btn--primary btn__procced col-30">
+                    <button className="btn btn__cart btn--primary btn__procced col-30" onClick={goBack}>
                         <span>Продолжить 
                         покупки</span> 
                     </button>
