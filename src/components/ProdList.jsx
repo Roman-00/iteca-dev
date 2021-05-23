@@ -1,7 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, {Pagination, Navigation, Autoplay} from 'swiper';
+import "swiper/swiper-bundle";
+
+SwiperCore.use([Pagination, Navigation, Autoplay]);
+
 import dafaultImage from '../images/image-default.png';
+
 
 const ProdList = ({prod, addToBasket, order}) => {
 
@@ -20,12 +27,25 @@ const ProdList = ({prod, addToBasket, order}) => {
                         
                         const quantity = order.find((el) => el.idProduct === idProduct)
                             ?.quantity
+
                         return (
                             <div className="card" key={idProduct}>
                                 {srtProductThumb ?
-                                    <figure className="card__figure card__figure--prod">
-                                        <img src={srtProductThumb} alt={strProduct} className="card__image"/>
-                                    </figure>
+                                    <Swiper 
+                                        id="main"
+                                        slidesPerView={1}
+                                        loop={true}
+                                        pagination
+                                        autoplay
+                                    >
+                                        {srtProductThumb.map((item) => (
+                                            <SwiperSlide>
+                                                 <figure className="card__figure card__figure--prod">
+                                                    <img src={item.images} alt={strProduct} className="card__image"/>
+                                                </figure>
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
                                     :
                                     <figure className="card__figure">
                                         <img src={dafaultImage} alt="card-default" className="card__image"/>
