@@ -40,7 +40,7 @@ const ProdList = ({prod, addToBasket, order}) => {
                                     >
                                         {srtProductThumb.map((item) => (
                                             <SwiperSlide>
-                                                 <figure className="card__figure card__figure--prod">
+                                                <figure className="card__figure card__figure--prod">
                                                     <img src={item.images} alt={strProduct} className="card__image"/>
                                                 </figure>
                                             </SwiperSlide>

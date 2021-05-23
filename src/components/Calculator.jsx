@@ -7,6 +7,8 @@ const Calculator = ({object}) => {
 
     const { b_ostrov, b_poluostrov, b_ugol, d_plstenda } = object;
 
+    const [sendText, sendInputText] = React.useState(false);
+
     const [value, setValue] = useState("");
     const [valueLength, setValueLenght] = useState(0);
     const [valueMoreThanTen, setValueMoreThanTen] = useState(0);
@@ -26,6 +28,8 @@ const Calculator = ({object}) => {
         /*e.target.value.search(//) !==-1*/
         if (e.nativeEvent.data !== " ") {
             setValueLenght(e.target.value.length);
+        } else if (e.target.value.search(/\s/) !== -1) {
+            console.log('Cодержит пробелы');
         }
     };
 
@@ -58,6 +62,47 @@ const Calculator = ({object}) => {
             setCheckedO('false')
         }
     }, [b_ostrov])
+
+    /* --- Пишем данные в бд --- */
+
+    React.useEffect(() => {
+        if(sendText) {
+            const sendTextValue = async () => {
+                const request = await fetch('https://onsite.iteca.kz/exh-save-details/', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        apiKey: "0KHQtdC60YDQtdGC0L3Ri9C50JrQu9GO0YfQlNC70Y/QotC10YXQl9Cw0LrQsNC30LA=",
+                        lang: "",
+                        exhibkey: "Kioge 2021",
+                        companykey: "MHhhNzA5MDAxNzlhN2JjY2JmMTFkZDUzMjI5YTYzMzgyMw==",
+                        companyid: "QUEwMDAwMDAyNzky",
+                        requestObject: requestObject,
+                    })
+                });
+
+                const data = await request.json();
+
+                return {
+                    request,
+                    data
+                }
+            }
+
+            sendTextValue()
+                .then((res) => {
+                    if(res.request.status === 200) {
+                        console.log("Ок");
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+
+        }
+        sendInputText(false);
+    }, [sendText]);
+
+    /* --- Пишем данные в бд --- */
 
 
     return (
@@ -107,7 +152,7 @@ const Calculator = ({object}) => {
                     Для заказа дополнительного оборудования, мебели, графических 
                     услуг или персонала, пожалуйста, нажмите кнопку справа ►►►
                 </span>
-                <Link to="/category" className="content__info--btn btn--primary">
+                <Link to="/category" className="content__info--btn btn--primary" onClick={() => sendInputText(true)}>
                     Продолжить 
                 </Link>
             </div>
