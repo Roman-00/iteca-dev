@@ -22,6 +22,7 @@ const AppRoutes = () => {
     const [order, setOrder] = React.useState([]);
 
     const [send, sendCard] = React.useState(false);
+    const [data, setData] = React.useState({});
 
     const [updateCart, setUpdateCart] = React.useState(false);
 
@@ -70,11 +71,15 @@ const AppRoutes = () => {
     React.useEffect(() => {  
         if(send) {
             const sendBacket = async () => {
-                const request = await fetch('https://itecaa-react-test-default-rtdb.firebaseio.com/ManagerData.json', {
+                const request = await fetch('https://onsite.iteca.kz/exh-save-list/', {
                     method: 'POST',
                     body: JSON.stringify({
+                        apiKey: "0KHQtdC60YDQtdGC0L3Ri9C50JrQu9GO0YfQlNC70Y/QotC10YXQl9Cw0LrQsNC30LA=",
+                        lang: "",
+                        exhibkey: "Kioge 2021",
+                        companykey: "MHhhNzA5MDAxNzlhN2JjY2JmMTFkZDUzMjI5YTYzMzgyMw==",
+                        companyid: "QUEwMDAwMDAyNzky",
                         order: order,
-                        lang: ''
                     })
                 });
 
@@ -90,6 +95,7 @@ const AppRoutes = () => {
             .then((res) => {
                 if(res.request.status === 200) {
                     console.log('Ок')
+                    setData(res.data);
                 }
             })
             .catch((error) => {
@@ -99,6 +105,8 @@ const AppRoutes = () => {
         sendCard(false);
         setOrder([]);
     }, [send])
+
+    console.log(data);
 
     React.useEffect(() => {
         getDataInfo()
