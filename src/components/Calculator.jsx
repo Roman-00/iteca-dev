@@ -22,17 +22,11 @@ const Calculator = ({object}) => {
 
     const handleChange = (e) => {
         setValue(e.target.value);
-        /*e.nativeEvent.data !== " "*/
-        /*e.target.value.search(//) !==-1*/
-        if (e.nativeEvent.data !== " ") {
-            setValueLenght(e.target.value.length);
-        } else {
-            const newValue = e.target.value.replace(/\s+/g, "");
-             // тут проверь, убери коммент с консоли и проверь.
-            // console.log('newValue', newValue);
-            // console.log('newValue.length', newValue.length)
-            setValueLenght(newValue.length);
-        }
+        const newValue = e.target.value.replace(/\s+/g, "");
+        // тут проверь, убери коммент с консоли и проверь.
+        // console.log('newValue', newValue);
+        // console.log('newValue.length', newValue.length)
+        setValueLenght(newValue.length);
     };
 
     const [checked, setChecked] = useState(false); // Угол
