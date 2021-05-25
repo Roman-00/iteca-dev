@@ -31,7 +31,7 @@ const Calculator = ({object}) => {
              // тут проверь, убери коммент с консоли и проверь.
             // console.log('newValue', newValue);
             // console.log('newValue.length', newValue.length)
-            setValueLenght(e.target.value.length);
+            setValueLenght(newValue.length);
         }
     };
 
