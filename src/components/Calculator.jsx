@@ -24,12 +24,13 @@ const Calculator = ({object}) => {
         setValue(e.target.value);
         /*e.nativeEvent.data !== " "*/
         /*e.target.value.search(//) !==-1*/
-        /*if (e.nativeEvent.data !== " ") {
+        if (e.nativeEvent.data !== " ") {
             setValueLenght(e.target.value.length);
-        } else */
-        if (e.target.value.search(/\s/) !== -1) {
-            const newValue = e.target.value.replace(/\s+/, "");
-            console.log('newValue', newValue);
+        } else {
+            const newValue = e.target.value.replace(/\s+/g, "");
+             // тут проверь, убери коммент с консоли и проверь.
+            // console.log('newValue', newValue);
+            // console.log('newValue.length', newValue.length)
             setValueLenght(e.target.value.length);
         }
     };
