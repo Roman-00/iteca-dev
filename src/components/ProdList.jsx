@@ -28,9 +28,11 @@ const ProdList = ({prod, addToBasket, order}) => {
                         const quantity = order.find((el) => el.idProduct === idProduct)
                             ?.quantity
 
+                        console.log('str', srtProductThumb);
+
                         return (
                             <div className="card" key={idProduct}>
-                                {srtProductThumb ?
+                                {srtProductThumb.length ?
                                     <Swiper 
                                         id="main"
                                         slidesPerView={1}
@@ -52,54 +54,57 @@ const ProdList = ({prod, addToBasket, order}) => {
                                     </figure>
                                 }
                                 <div className="card__content">
-                                    <div className="card__content--wrap">
-                                        <h4 className="prod__card--title">
-                                            {strProduct}
-                                        </h4>
-                                        <div className="card__content--price">
-                                            <span className="card__content--price">
-                                                {Price}
-                                            </span>
-                                            <span className="card__content--curency">
-                                                {Curency}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="card__content--quantity">
+                                    <h4 className="prod__card--title">
+                                        {strProduct}
+                                    </h4>
+                                    <div className="card__content--block">
+                                        <div className="card__content--wrap">
+                                            <div className="card__content--price">
+                                                <span className="card__content--price">
+                                                    {Price}
+                                                </span>
+                                                <span className="card__content--curency">
+                                                    {Curency}
+                                                </span>
+                                            </div>
+
+                                            <div className="card__content--quantity">
                                         <div className="content__quantity">
                                             <span className="cart-list-item__count">{quantity ? quantity : 0}</span>
                                         </div>
                                         <div className="content__btn_add--remove">
-                                            <button 
-                                                className="button-cart"
-                                                onClick={() =>
-                                                    addToBasket(
-                                                        {
-                                                            idProduct,
-                                                            strProduct,
-                                                            Price,
-                                                        },
-                                                        'add',
-                                                    )
-                                                }
-                                            >
-                                                +
-                                            </button>
-                                            <button 
-                                                className="button-cart"
-                                                onClick={() =>
-                                                    addToBasket(
-                                                        {
-                                                            idProduct,
-                                                            strProduct,
-                                                            Price,
-                                                        },
-                                                        'remove',
-                                                    )
-                                                }
-                                            >
-                                                -
-                                            </button>
+                                                    <button 
+                                                        className="button-cart"
+                                                        onClick={() =>
+                                                            addToBasket(
+                                                                {
+                                                                    idProduct,
+                                                                    strProduct,
+                                                                    Price,
+                                                                },
+                                                                'add',
+                                                            )
+                                                        }
+                                                    >
+                                                        +
+                                                    </button>
+                                                    <button 
+                                                        className="button-cart"
+                                                        onClick={() =>
+                                                            addToBasket(
+                                                                {
+                                                                    idProduct,
+                                                                    strProduct,
+                                                                    Price,
+                                                                },
+                                                                'remove',
+                                                            )
+                                                        }
+                                                    >
+                                                        -
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

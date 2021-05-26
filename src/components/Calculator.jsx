@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Calculator = ({object}) => {
 
-    const { b_ostrov, b_poluostrov, b_ugol, d_plstenda } = object;
+    const { b_ostrov, b_poluostrov, b_ugol, d_plstenda, friza } = object;
 
     const [value, setValue] = useState("");
     const [valueLength, setValueLenght] = useState(0);
@@ -22,16 +22,11 @@ const Calculator = ({object}) => {
 
     const handleChange = (e) => {
         setValue(e.target.value);
-        /*e.nativeEvent.data !== " "*/
-        /*e.target.value.search(//) !==-1*/
-        /*if (e.nativeEvent.data !== " ") {
-            setValueLenght(e.target.value.length);
-        } else */
-        if (e.target.value.search(/\s/) !== -1) {
-            const newValue = e.target.value.replace(/\s+/, "");
-            console.log('newValue', newValue);
-            setValueLenght(e.target.value.length);
-        }
+        const newValue = e.target.value.replace(/\s+/g, "");
+        // тут проверь, убери коммент с консоли и проверь.
+        // console.log('newValue', newValue);
+        // console.log('newValue.length', newValue.length)
+        setValueLenght(newValue.length);
     };
 
     const [checked, setChecked] = useState(false); // Угол
@@ -39,6 +34,9 @@ const Calculator = ({object}) => {
     const [checkedp, setCheckedP] = useState('false'); // Полуостров
 
     const [checkedo, setCheckedO] = useState('false'); // Остров
+
+    const [sendInput, sendInputAdd] = React.useState(false);
+    const [dataInput, setDataInput] = React.useState({});
     
     useEffect(() => {
       if (b_ugol) {
@@ -64,21 +62,64 @@ const Calculator = ({object}) => {
         }
     }, [b_ostrov])
 
+    /* Кодируем строку в base 64 */
+
+    function b64EncodeUnicode(str) {
+        // first we use encodeURIComponent to get percent-encoded UTF-8,
+        // then we convert the percent encodings into raw bytes which
+        // can be fed into btoa.
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode('0x' + p1);
+        }));
+    }
+
+    console.log('base', b64EncodeUnicode(value));
+
+    /* Кодируем строку в base 64 */
+
     /* --- Пишем данные в бд --- */
-    const senRequest = () => {
-        const requestObject = { value, valueMoreThanTen, price: valueMoreThanTen * price };
-        fetch("https://onsite.iteca.kz/exh-save-list/", {
-          method: "POST",
-          body: JSON.stringify({
-            apiKey: "0KHQtdC60YDQtdGC0L3Ri9C50JrQu9GO0YfQlNC70Y/QotC10YXQl9Cw0LrQsNC30LA=",
-            lang: "",
-            exhibkey: "Kioge 2021",
-            companykey: "MHhhNzA5MDAxNzlhN2JjY2JmMTFkZDUzMjI5YTYzMzgyMw==",
-            companyid: "QUEwMDAwMDAyNzky",
-            requestObject: requestObject
-          })
-        });
-    };
+
+    React.useEffect(() => {
+        if(sendInput) {
+            const sendInputText = async () => {
+                const request = await fetch('https://onsite.iteca.kz/exh-save-details/', {
+                    method: 'POST',
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        apiKey: "0KHQtdC60YDQtdGC0L3Ri9C50JrQu9GO0YfQlNC70Y/QotC10YXQl9Cw0LrQsNC30LA=",
+                        lang: "",
+                        exhibkey: "Kioge 2021",
+                        companykey: "MHhhNzA5MDAxNzlhN2JjY2JmMTFkZDUzMjI5YTYzMzgyMw==",
+                        companyid: "QUEwMDAwMDAyNzky",
+                        requestObject: b64EncodeUnicode(value), 
+                    })
+                });
+
+                const data = await request.json();
+
+                return {
+                    request,
+                    data
+                }
+            }
+
+            sendInputText()
+            .then((res) => {
+                if(res.request.status === 200) {
+                    console.log("Текст отправлен")
+                    setDataInput(res.data);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+        }
+
+        sendInputAdd(false);
+    }, [sendInput]);
+    
+
     /* --- Пишем данные в бд --- */
 
 
@@ -94,7 +135,7 @@ const Calculator = ({object}) => {
             </p>
             <div className="calculator__content--interface">
                 <div className="calculator__interface--input">
-                    <input type="text" value={value} placeholder="Впишите надпись здесь" className="calculator__input" onChange={handleChange}/>
+                    <input type="text" value={value} placeholder={friza} className="calculator__input" onChange={handleChange}/>
                 </div>
                 <div className="calculator__interface--parametrs">
                     <div className="calculator__paramentrs calculator__paramentrs--angle">
@@ -129,9 +170,9 @@ const Calculator = ({object}) => {
                     Для заказа дополнительного оборудования, мебели, графических 
                     услуг или персонала, пожалуйста, нажмите кнопку справа ►►►
                 </span>
-                <span onClick={() => senRequest()}>Отправить</span>
+                {/*<span >Отправить</span>*/}
                 <Link to="/category" className="content__info--btn btn--primary">
-                    Продолжить 
+                    <div onClick={() => sendInputAdd(true)}>Продолжить</div> 
                 </Link>
             </div>
         </div>
