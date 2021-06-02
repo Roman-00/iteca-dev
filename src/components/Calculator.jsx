@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Calculator = ({object}) => {
 
@@ -102,6 +102,9 @@ const Calculator = ({object}) => {
                     request,
                     data
                 }
+
+                history.push('/category');
+
             }
 
             sendInputText()
@@ -171,9 +174,15 @@ const Calculator = ({object}) => {
                     услуг или персонала, пожалуйста, нажмите кнопку справа ►►►
                 </span>
                 {/*<span >Отправить</span>*/}
-                <Link to="/category" className="content__info--btn btn--primary">
+                {/*<Link to="/category" className="content__info--btn btn--primary">
                     <div onClick={() => sendInputAdd(true)}>Продолжить</div> 
-                </Link>
+                </Link>*/}
+                <button 
+                    className="content__info--btn btn--primary" 
+                    onClick={() => sendInputAdd(true)}
+                >
+                    Продолжить
+                </button>
             </div>
         </div>
     )
