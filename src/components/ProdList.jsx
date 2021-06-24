@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,6 +14,23 @@ const ProdList = ({prod, addToBasket, order}) => {
 
     const {id, title} = useParams();
 
+
+    const autoAddToBasket = (idProduct,
+                             strProduct,
+                             Price, quantity) => {
+        addToBasket(
+            {
+                idProduct,
+                strProduct,
+                Price,
+            },
+            'add',
+            +quantity
+        )
+    }
+
+
+
     return (
         <div className="prod__content">
             <h2 className="content__title prod__title">
@@ -26,7 +43,7 @@ const ProdList = ({prod, addToBasket, order}) => {
                         const {idProduct, strProduct, Price, Curency, srtProductThumb} = el
                         
                         const quantity = order.find((el) => el.idProduct === idProduct)
-                            ?.quantity
+                            ?.quantity  ;
 
                         return (
                             <div className="card" key={idProduct}>
@@ -67,7 +84,19 @@ const ProdList = ({prod, addToBasket, order}) => {
                                     </div>
                                     <div className="card__content--quantity">
                                         <div className="content__quantity">
-                                            <span className="cart-list-item__count">{quantity ? quantity : 0}</span>
+                                            <input value={quantity} defaultValue={0} type="number" onChange={(e) => {
+                                                const updater = function() {
+                                                    autoAddToBasket(
+                                                        idProduct,
+                                                        strProduct,
+                                                        Price,
+                                                        e.target.value
+                                                    )
+                                                }
+                                                if(+e.target.value !== 0 ) {
+                                                    e.target.addEventListener('mouseleave', updater);
+                                                }
+                                            }} />
                                         </div>
                                         <div className="content__btn_add--remove">
                                             <button 

@@ -26,7 +26,7 @@ const AppRoutes = () => {
 
     const [updateCart, setUpdateCart] = React.useState(false);
 
-    const addToBasket = (item, type) => {
+    const addToBasket = (item, type, quantity) => {
 
         setUpdateCart(true);
 
@@ -34,16 +34,27 @@ const AppRoutes = () => {
             (orderItem) => orderItem.idProduct === item.idProduct,
         )
 
+        console.log('itemIndex', itemIndex)
+
+        let quantityValue = 1;
+        if (order && order.length > 0 && order[itemIndex]?.quantity > 1) {
+                quantityValue = order[itemIndex]?.quantity
+        } else if (order && order.length === 0  || itemIndex < 0) {
+           quantityValue = quantity
+        }
+
+
         if(itemIndex < 0) {
             const newItem = {
                 ...item,
-                quantity: 1,
+                quantity: quantityValue,
             }
-            setOrder([...order, newItem])
+            setOrder([...order, newItem]);
+            console.log('quantityValue', quantityValue);
         } else {
             if(type === 'add') {
                 order[itemIndex].quantity = order[itemIndex].quantity + 1;
-                setOrder(order)
+                setOrder(order);
             } else if (type === 'remove') {
                 if (order[itemIndex].quantity === 1) {
                     setOrder(order.filter((el) => el.idProduct !== item.idProduct))
